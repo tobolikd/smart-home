@@ -1,0 +1,72 @@
+%class
+\documentclass[a4paper, 12pt]{article}
+
+%encoding
+\usepackage[T1]{fontenc}           %font encoding
+\usepackage[utf8]{inputenc}         %script encoding
+
+%packages
+\usepackage[czech]{babel}           %language
+\usepackage[a4paper, text={17cm,24cm}, left=2cm, top=3 cm]{geometry}		%layout
+\usepackage{times}					%font
+\usepackage[ruled, czech, linesnumbered, longend, noline]{algorithm2e}		%algorithms
+\usepackage[unicode,hidelinks]{hyperref}	%links
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{fancyvrb}
+
+\urlstyle{same}
+
+\newcommand{\urlhref}[2]{\href{#1}{\textcolor{cyan}{\underline{#2}}}}
+\newcommand{\iic}{I\textsuperscript{2}C }
+
+\begin{document}
+
+\begin{titlepage}
+	\centering
+
+	\vspace*{\stretch{0.382}}
+
+	{\Huge Chytrá domácnost\\[0.4em]
+		\LARGE BPC-IOT projekt \#7 2024}
+
+	\vspace*{\stretch{0.618}}
+
+	\begin{table}[H]
+		\hfill
+		\begin{tabularx}{0.3\textwidth}{Xr}
+			David Tobolík & xtobol06 \\
+			Name          & login    \\
+		\end{tabularx}
+	\end{table}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Zadání}
+\section{Popis aplikace}
+
+
+\section{Volba technologií}
+\subsection{Bezdrátová komunikace}
+\subsection{Komunikační protokol}
+\subsection{Napájení}
+
+
+\subsection{Alternativní situace}
+\textit{
+	Jakým způsobem byste řešili senzory a aktory umístěné mimo vnitřní prostory
+	domu (např. zavlažování, skleník atp.) v případě, že neexistuje outdoor pokrytí
+	zvolenou technologií?
+}
+
+\end{document}
+
