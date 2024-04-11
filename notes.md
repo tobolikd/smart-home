@@ -1,8 +1,13 @@
 Topics:
 
-IoTProject/7/temperature
-IoTProject/7/heating
-IoTProject/7/button/1
+s -> gw: IoTProject/7/temperature [temp C]
+
+gw -> s: IoTProject/7/heating [bool]
+
+s -> gw: IoTProject/7/button/1 (true)
+
+gw -> s: IoTProject/7/light/1 [bool]
+
 
 
 IP - 147.229.146.40
