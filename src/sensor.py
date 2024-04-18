@@ -206,24 +206,10 @@ temp_timer.init(mode=Timer.PERIODIC, period=(TEMP_SEC * 1000), callback=temp_upd
 
 ### Check message loop ###
 
-mqtt_ctr = 0
-print("Entering infinite loop")
-seconds_counter = 14
+print("Device ready")
 while True:
     try:
         client.check_msg()
-        mqtt_ctr = mqtt_ctr + 1
-        seconds_counter = seconds_counter + 1
-        if mqtt_ctr >= (KEEPALIVE_SEC) / 0.1:
-            mqtt_ctr = 0
-            # keepalive_update(0);
-
-        # Publish message to topic
-        if seconds_counter >= 3 / 0.1:
-            seconds_counter = 0
-            # temp_update(0)
-            # temp = str(tmp_sensor.temperature)
-            # client.publish(b"IoTProject/2/temperature", temp)
     except Exception as exception:
         print(f"Error: {str(exception)}")
     time.sleep(0.1)
