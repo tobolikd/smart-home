@@ -150,8 +150,10 @@ try:
     # client.subscribe(b"IoTProject/2/light/1")
 except MQTTException as mqtte:
     print(f"MQTTException : {str(mqtte)} - {mqtterrortable[int(str(mqtte))]}")
+    exit()
 except Exception as exception:
     print(f"Exception(mqtt init): {exception}")
+    exit()
 
 ### Register button callback ###
 
@@ -194,13 +196,13 @@ def temp_update(timer):
         print(f"Error(temp): {str(exception)}")
 
 
-# keepalive_timer = Timer()
-# keepalive_timer.init(
-#     mode=Timer.PERIODIC, freq=((KEEPALIVE_SEC - 2) * 1000), callback=keepalive_update
-# )
+keepalive_timer = Timer()
+keepalive_timer.init(
+    mode=Timer.PERIODIC, period=((KEEPALIVE_SEC - 2) * 1000), callback=keepalive_update
+)
 
-# temp_timer = Timer()
-# temp_timer.init(mode=Timer.PERIODIC, freq=1000, callback=temp_update)
+temp_timer = Timer()
+temp_timer.init(mode=Timer.PERIODIC, period=(TEMP_SEC * 1000), callback=temp_update)
 
 ### Check message loop ###
 
@@ -214,12 +216,12 @@ while True:
         seconds_counter = seconds_counter + 1
         if mqtt_ctr >= (KEEPALIVE_SEC) / 0.1:
             mqtt_ctr = 0
-            keepalive_update(0);
+            # keepalive_update(0);
 
         # Publish message to topic
         if seconds_counter >= 3 / 0.1:
             seconds_counter = 0
-            temp_update(0)
+            # temp_update(0)
             # temp = str(tmp_sensor.temperature)
             # client.publish(b"IoTProject/2/temperature", temp)
     except Exception as exception:
