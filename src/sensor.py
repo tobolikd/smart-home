@@ -1,17 +1,14 @@
 import network
 import time
-import urequests
 from machine import Pin, I2C, Timer
-import usocket as socket
 from umqtt.simple import MQTTClient
 from umqtt.simple import MQTTException
-import ujson
 import ahtx0
 
 
 # Credentials and Config
-WIFI_SSID = b"LPWAN-IoT-06"
-WIFI_PASS = b"LPWAN-IoT-06-WiFi"
+WIFI_SSID = b"LPWAN-IoT-07"
+WIFI_PASS = b"LPWAN-IoT-07-WiFi"
 
 REMOTE_SERVER_IP = "147.229.146.40"
 REMOTE_SERVER_PORT = 11883
@@ -142,7 +139,9 @@ client = MQTTClient(
 )
 client.set_callback(message_callback)
 
-# client.set_last_will("")
+client.set_last_will(TOPIC_HEATING, b"False")
+for name in lights:
+    client.set_last_will(TOPIC_LIGHT + name, b"False")
 
 try:
     client.connect()
