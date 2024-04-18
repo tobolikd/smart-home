@@ -8,6 +8,11 @@ from umqtt.simple import MQTTException
 import ujson
 import ahtx0
 
+def exit():
+    while True:
+        print("Script has exited")
+        time.sleep(5)
+
 # Credentials and Config
 WIFI_SSID = b"LPWAN-IoT-06"
 WIFI_PASS = b"LPWAN-IoT-06-WiFi"
@@ -172,7 +177,7 @@ for button in buttons:
 ### Periodic procedures ###
 
 
-def keepalive_update(_):
+def keepalive_update(timer):
     print(f"Sending temp")
     try:
         client.ping()
@@ -180,7 +185,7 @@ def keepalive_update(_):
         print(f"Error(keepalive): {str(exception)}")
 
 
-def temp_update(_):
+def temp_update(timer):
     print(f"Sending temp")
     try:
         temp = str(tmp_sensor.temperature)
@@ -194,8 +199,8 @@ def temp_update(_):
 #     mode=Timer.PERIODIC, freq=((KEEPALIVE_SEC - 2) * 1000), callback=keepalive_update
 # )
 
-temp_timer = Timer()
-temp_timer.init(mode=Timer.PERIODIC, freq=(TEMP_SEC * 1000000), callback=temp_update)
+# temp_timer = Timer()
+# temp_timer.init(mode=Timer.PERIODIC, freq=1000, callback=temp_update)
 
 ### Check message loop ###
 
@@ -214,7 +219,7 @@ while True:
         # Publish message to topic
         if seconds_counter >= 3 / 0.1:
             seconds_counter = 0
-            # temp_update(0)
+            temp_update(0)
             # temp = str(tmp_sensor.temperature)
             # client.publish(b"IoTProject/2/temperature", temp)
     except Exception as exception:
@@ -222,3 +227,4 @@ while True:
     time.sleep(0.1)
 
 client.disconnect()
+
