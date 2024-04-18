@@ -9,8 +9,8 @@ import ujson
 import ahtx0
 
 # Credentials and Config
-WIFI_SSID = "LPWAN-IoT-07"
-WIFI_PASS = "LPWAN-IoT-07-WiFi"
+WIFI_SSID = b"LPWAN-IoT-06"
+WIFI_PASS = b"LPWAN-IoT-06-WiFi"
 
 REMOTE_SERVER_IP = "147.229.146.40"
 REMOTE_SERVER_PORT = 11883
@@ -135,7 +135,7 @@ client = MQTTClient(
 )
 client.set_callback(message_callback)
 
-client.set_last_will("")
+# client.set_last_will("")
 
 try:
     client.connect()
@@ -166,13 +166,14 @@ def button_callback(pin):
         print(f"Error(bttn): {str(exception)}")
 
 
-for button, _ in buttons:
+for button in buttons:
     button.irq(trigger=Pin.IRQ_FALLING, handler=button_callback)
 
 ### Periodic procedures ###
 
 
 def keepalive_update(_):
+    print(f"Sending temp")
     try:
         client.ping()
     except Exception as exception:
@@ -180,6 +181,7 @@ def keepalive_update(_):
 
 
 def temp_update(_):
+    print(f"Sending temp")
     try:
         temp = str(tmp_sensor.temperature)
         client.publish(TOPIC_TEMPERATURE, temp)
@@ -187,10 +189,13 @@ def temp_update(_):
         print(f"Error(temp): {str(exception)}")
 
 
-Timer(
-    1, mode=Timer.PERIODIC, freq=(KEEPALIVE_SEC - 2) * 1000, callback=keepalive_update
-)
-Timer(2, mode=Timer.PERIODIC, freq=TEMP_SEC * 1000, callback=temp_update)
+# keepalive_timer = Timer()
+# keepalive_timer.init(
+#     mode=Timer.PERIODIC, freq=((KEEPALIVE_SEC - 2) * 1000), callback=keepalive_update
+# )
+
+temp_timer = Timer()
+temp_timer.init(mode=Timer.PERIODIC, freq=(TEMP_SEC * 1000000), callback=temp_update)
 
 ### Check message loop ###
 
@@ -204,13 +209,14 @@ while True:
         seconds_counter = seconds_counter + 1
         if mqtt_ctr >= (KEEPALIVE_SEC) / 0.1:
             mqtt_ctr = 0
-            client.ping()
+            keepalive_update(0);
 
         # Publish message to topic
         if seconds_counter >= 3 / 0.1:
             seconds_counter = 0
-            temp = str(tmp_sensor.temperature)
-            client.publish(b"IoTProject/2/temperature", temp)
+            # temp_update(0)
+            # temp = str(tmp_sensor.temperature)
+            # client.publish(b"IoTProject/2/temperature", temp)
     except Exception as exception:
         print(f"Error: {str(exception)}")
     time.sleep(0.1)
