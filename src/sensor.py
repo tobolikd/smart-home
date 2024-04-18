@@ -8,10 +8,6 @@ from umqtt.simple import MQTTException
 import ujson
 import ahtx0
 
-def exit():
-    while True:
-        print("Script has exited")
-        time.sleep(5)
 
 # Credentials and Config
 WIFI_SSID = b"LPWAN-IoT-06"
@@ -26,6 +22,12 @@ PASSWORD = ""
 
 KEEPALIVE_SEC = 30
 TEMP_SEC = 1
+
+### Exit
+def exit():
+    while True:
+        print("Script has exited")
+        time.sleep(5)
 
 ### Constants
 TOPIC_PREFIX = b"IoTProject/2/"
